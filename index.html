@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>عيد ميلاد سعيد يا حبيبتي</title>
+  <style>
+    :root{
+      --bg1:#1a1b2e;
+      --bg2:#3a1c5f;
+      --accent:#ff4d6d;
+      --rose:#ff99c8;
+      --gold:#ffd166;
+      --white:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Tajawal", system-ui, sans-serif;
+      color:var(--white);
+      min-height:100vh;
+      overflow:hidden;
+      background: radial-gradient(1200px 800px at 70% 20%, var(--bg2), var(--bg1));
+    }
+
+    /* نجوم خفيفة في الخلفية */
+    .stars{
+      position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(2px 2px at 80% 30%, rgba(255,255,255,.5), transparent 60%),
+        radial-gradient(2px 2px at 50% 70%, rgba(255,255,255,.4), transparent 60%),
+        radial-gradient(2px 2px at 20% 85%, rgba(255,255,255,.4), transparent 60%),
+        radial-gradient(2px 2px at 60% 50%, rgba(255,255,255,.5), transparent 60%);
+      opacity:.35;
+    }
+
+    /* الحاوية الرئيسية */
+    .container{
+      position:relative;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      text-align:center;
+      padding:40px 20px;
+      min-height:100vh;
+      backdrop-filter: saturate(120%) brightness(110%);
+    }
+
+    /* بطاقة التهنئة */
+    .card{
+      max-width:820px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:24px;
+      padding:32px 28px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.35);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .title{
+      font-size:2.4rem;
+      margin:0 0 10px;
+      letter-spacing:1px;
+      color:#ffe9f3;
+      text-shadow:0 2px 10px rgba(0,0,0,.4);
+    }
+
+    .subtitle{
+      font-size:1.2rem;
+      margin:0 0 18px;
+      color:#ffdbea;
+    }
+
+    .message{
+      font-size:1.05rem;
+      line-height:1.9;
+      margin:14px 0 22px;
+      color:#fff;
+    }
+
+    /* زر التشغيل */
+    .controls{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+      margin-top:8px;
+      flex-wrap:wrap;
+    }
+    button{
+      all:unset;
+      cursor:pointer;
+      background:linear-gradient(135deg, var(--accent), #ff7aa2);
+      color:#fff;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:600;
+      box-shadow:0 10px 24px rgba(255,77,109,.35);
+      transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    button:hover{ transform:translateY(-2px); filter:brightness(1.05); }
+    button:active{ transform:translateY(0); box-shadow:0 6px 18px rgba(255,77,109,.25); }
+    .secondary{
+      background:linear-gradient(135deg, #6a7aff, #94b3ff);
+      box-shadow:0 10px 24px rgba(106,122,255,.35);
+    }
+
+    /* قلوب متحركة */
+    .hearts{
+      position:absolute; inset:0; pointer-events:none;
+    }
+    .heart{
+      position:absolute;
+      width:28px; height:28px;
+      transform:rotate(-45deg);
+      animation: floatUp linear forwards;
+      filter:drop-shadow(0 4px 10px rgba(255,77,109,.45));
+    }
+    .heart::before, .heart::after{
+      content:"";
+      position:absolute;
+      width:28px; height:28px;
+      background:var(--accent);
+      border-radius:50%;
+    }
+    .heart::before{ top:-14px; left:0; }
+    .heart::after{ left:14px; top:0; }
+    @keyframes floatUp{
+      0%{ transform:translateY(20px) scale(.8) rotate(-45deg); opacity:0; }
+      10%{ opacity:1; }
+      100%{ transform:translateY(-110vh) scale(1.35) rotate(-45deg); opacity:0; }
+    }
+
+    /* ورد متفتح (إيموجي) */
+    .roses{
+      position:absolute; inset:0; pointer-events:none;
+      display:flex; align-items:center; justify-content:center;
+      gap:18px; flex-wrap:wrap;
+      padding:24px;
+    }
+    .rose{
+      font-size:22px;
+      animation: bloom 3.8s ease-in-out infinite;
+      filter:drop-shadow(0 4px 8px rgba(255,153,200,.35));
+    }
+    @keyframes bloom{
+      0%{ transform:scale(.85); opacity:.85; }
+      50%{ transform:scale(1.08); opacity:1; }
+      100%{ transform:scale(.85); opacity:.85; }
+    }
+
+    /* برق ونجمة صغيرة حول العنوان */
+    .sparkles{
+      position:absolute; top:14px; right:14px;
+      font-size:20px; opacity:.9;
+      animation: twinkle 2.6s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{ transform:scale(1); filter:brightness(1); }
+      50%{ transform:scale(1.2); filter:brightness(1.3); }
+    }
+
+    /* تذييل بسيط */
+    .footer{
+      margin-top:18px;
+      font-size:.95rem;
+      color:#ffeef6;
+      opacity:.9;
+    }
+
+    /* ريسبونسف */
+    @media (max-width:600px){
+      .title{ font-size:1.9rem; }
+      .subtitle{ font-size:1.05rem; }
+      .message{ font-size:1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <!-- ورود عشوائية حول الصفحة -->
+  <div class="roses" aria-hidden="true" id="roses"></div>
+
+  <!-- قلوب عائمة -->
+  <div class="hearts" aria-hidden="true" id="hearts"></div>
+
+  <div class="container">
+    <div class="card">
+      <div class="sparkles">✨</div>
+      <h1 class="title">عيد ميلاد سعيد يا حبيبتي! 🎂❤️</h1>
+      <p class="subtitle">اليوم أجمل لأنك فيه</p>
+      <p class="message">
+        كل عام وأنتِ أجمل هدية في حياتي. <br/>
+        أحبك أكثر مما تُخبر به الكلمات، ودايمًا بدعي تكون أيامك فرح وحب وراحة. <br/>
+        هذا اليوم لكِ، ولقلبي اللي يحبك.
+      </p>
+
+      <div class="controls">
+        <button id="playBtn">تشغيل الأغنية 🎵</button>
+        <button class="secondary" id="pauseBtn">إيقاف مؤقت ⏸️</button>
+      </div>
+
+      <p class="footer">من قلبي لكِ، اليوم وكل يوم 🌹</p>
+    </div>
+  </div>
+
+  <!-- الصوت: غير اسم الملف أدناه لملفك -->
+  <audio id="audio" preload="auto">
+    <source src="birthday.mp3" type="audio/mpeg"/>
+    متصفحك لا يدعم تشغيل الصوت.
+  </audio>
+
+  <script>
+    // محاولة تشغيل تلقائي (قد يحتاج تفاعل المستخدم حسب المتصفح)
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+
+    async function tryAutoplay(){
+      try{
+        audio.volume = 0.9;
+        await audio.play();
+      }catch(e){
+        // إذا منع المتصفح التشغيل التلقائي، ننتظر ضغط الزر
+      }
+    }
+
+    playBtn.addEventListener('click', async () => {
+      try{
+        audio.volume = 0.95;
+        await audio.play();
+        playBtn.textContent = "تشتغل الآن 🎶";
+      }catch(e){
+        playBtn.textContent = "اضغط مرة أخرى للتشغيل 🎵";
+      }
+    });
+
+    pauseBtn.addEventListener('click', () => {
+      audio.pause();
+      playBtn.textContent = "تشغيل الأغنية 🎵";
+    });
+
+    // إطلاق القلوب بشكل مستمر
+    const hearts = document.getElementById('hearts');
+    function spawnHeart(){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      // مكان أفقي عشوائي
+      h.style.left = Math.random()*100 + 'vw';
+      // مدة عشوائية للحركة
+      const dur = 4 + Math.random()*5;
+      h.style.animationDuration = dur + 's';
+      // لون متدرج بسيط
+      const hue = 340 + Math.random()*20; // درجات وردية
+      h.style.filter = `drop-shadow(0 6px 14px hsla(${hue}, 90%, 60%, .45))`;
+      hearts.appendChild(h);
+      // إزالة بعد الانتهاء
+      setTimeout(()=>h.remove(), dur*1000);
+    }
+    // كثافة القلوب
+    setInterval(spawnHeart, 320);
+    for(let i=0;i<20;i++) spawnHeart();
+
+    // نشر ورود إيموجي حول البطاقة
+    const roses = document.getElementById('roses');
+    const roseSet = ["🌹","🌷","💐","🌸","🌺","🌹","🌷","🌹"];
+    function scatterRoses(count=24){
+      for(let i=0;i<count;i++){
+        const r = document.createElement('span');
+        r.className='rose';
+        r.textContent = roseSet[Math.floor(Math.random()*roseSet.length)];
+        r.style.position='absolute';
+        r.style.left = Math.random()*100 + 'vw';
+        r.style.top = Math.random()*100 + 'vh';
+        r.style.animationDelay = (Math.random()*2) + 's';
+        r.style.fontSize = (18 + Math.random()*22) + 'px';
+        roses.appendChild(r);
+      }
+    }
+    scatterRoses(30);
+
+    // بدء محاولة التشغيل
+    tryAutoplay();
+  </script>
+</body>
+</html>
